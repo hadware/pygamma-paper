@@ -31,7 +31,7 @@ Consequently, the Gamma ($\gamma$) Inter-Annotator Agreement Measure was propose
 The authors of [@gamma-paper] [provided a Java freeware](https://gamma.greyc.fr/) (and thus closed-source) GUI implementation. However, a lot of the work in either automated speech processing or linguistics today is done using Python or shell scripts. For this reason, we thought it would greatly benefit both communities if we could provide them with a fully open-source Python implementation of the original algorithm.
 
 
-# The pygamma-agreement Package
+# The pygamma-agreement Package
 
 
 The `pygamma-agreement` package provides users with two ways to compute (in Python) the $\gamma$-agreement for a corpus. The first one is to use the simple Python API. 
@@ -62,7 +62,7 @@ Computing the gamma-agreement requires both array manipulation and some convex o
 
 We provide a [documentation](https://pygamma-agreement.readthedocs.io/en/latest/) as well as an example Jupyter notebook in our package's repository. Additionally, we've used and tested `pygamma-agreement` in conjunction with the development of our own custom-built annotation platform, Seshat [@seshat].
 
-We've uploaded our package to the Pypi repository, thus, `pygamma-agreement` can be installed using pip.
+We've uploaded our package to the [Pypi repository](https://pypi.org/project/pygamma-agreement/), thus, `pygamma-agreement` can be installed using pip.
 
 
 # Future Work
