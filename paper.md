@@ -76,7 +76,7 @@ We've identified a small number of improvements that our package could benefit f
 
 # Acknowledgements
 
-We  are   thankful  to  Yann Mathet's help on understanding his work.  This work is funded in part bythe Agence Nationale pour la Recherche (ANR-17-EURE-0017Frontcog, ANR-10-IDEX-0001-02 PSL*, ANR-19-P3IA-0001PRAIRIE 3IA Institute) and Grants from Neuratris, from Face-book AI Research (Research Gift), Google (Faculty ResearchAward),  Microsoft  Research  (Azure  Credits  and  Grant),  andAmazon Web Service (AWS Research Credits).
+We  are   thankful  to  Yann Mathet's help on understanding his work.  This work is funded in part by the Agence Nationale pour la Recherche (ANR-17-EURE-0017Frontcog, ANR-10-IDEX-0001-02 PSL*, ANR-19-P3IA-0001PRAIRIE 3IA Institute) and Grants from Neuratris, from Facebook AI Research (Research Gift), Google (Faculty Research Award),  Microsoft  Research  (Azure  Credits  and  Grant), and Amazon Web Service (AWS Research Credits).
 
 # References
 
