@@ -48,7 +48,7 @@ The most important primitives from our API (the `Continuum` \autoref{fig:continu
 
 ![Displaying a Continuum in a jupyter notebook. \label{fig:continuum}](continuum.png)
 
-![Displaying an Alignment in a jupyter notebook. \label{fig:alignment}](best-alignment.png)
+![Displaying an Alignment in a jupyter notebook. \label{fig:alignment}](best_alignment.png)
 
 The second one is a command-line application that can be invoked directly from the shell, for those who prefer to use shell scripts for corpus processing:
 
