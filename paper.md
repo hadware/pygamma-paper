@@ -7,7 +7,7 @@ tags:
   - statistics
 authors:
   - name: Rachid Riad
-    # orcid: 0000-0003-0872-7098 # todo, maybe
+    orcid: 0000-0002-7753-1219
     affiliation: "1, 2"
   - name: Hadrien Titeux
     orcid: 0000-0002-8511-1644
