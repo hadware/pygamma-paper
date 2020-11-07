@@ -27,12 +27,20 @@ bibliography: paper.bib
 In the last decades, it became easier to collect large audio recordings in naturalistic conditions and large corpora of text from the Internet. This broadens the scope of questions that can be addressed regarding speech and language.
 
 
-Scientist need to challenge their hypotheses and quantify the observed phenomenons on speech and language; that is why scientists add different layers of annotations. Some type of human intervention is used to reliably describe events contained in the corpus's content (ex: wikipedia articles, conversations, child babbling, animal vocalizations, or even just  environmental sounds). These events can either be tagged at a particular point in time, or over a stretch of time. Moreover, indicating _when_ something happens in one of the corpus's file is only part of the annotation work: in many cases, it's also important for the human annotator to indicate _what_ is the nature of the event. Indeed, many annotations are either categorical, or - in the case of speech - precise transcriptions [@chat-childes-book] of the recorded speech. However, annotators - as skillful as they may be -  are susceptible to their own interpretations of the corpus's actual content, which raises the relevant question of their annotation's validity or the annotations task's intrinsic difficulty. An objective measure of the agreement (and subsequent disagreement) between annotators is thus desirable. To that end, small parts of a corpus are annotated several times by different annotators, to unitize and categories events it contains. Note that this problematic is also applicable in a setup where one, some or all annotators might be computer programs.
+Scientist need to challenge their hypotheses and quantify the observed phenomenons on speech and language; that is why scientists add different layers of annotations. Some type of human intervention is used to reliably describe events contained in the corpus's content (ex: Wikipedia articles, conversations, child babbling, animal vocalizations, or even just environmental sounds). These events can either be tagged at a particular point in time, or over a stretch of time. It is also commonplace to provide a categorical annotation or - in the case of speech -  even precise transcriptions [@chat-childes-book] for these events. 
+Depending on the difficulty of the annotation task and the eventual expertise of the annotators, the annotations can include a certain degree of interpretation, which can make the very notion of "reference" annotation utopian. 
+A common strategy is to have small parts of a corpus annotated by several annotators, to be able quantify their consensus on that reduced subset of the corpus. 
+If that consensus is deemed robust (i.e., agreement is high), we infer that the annotation task is well defined, less prone to interpretation, and that annotations that cover the rest of the corpus are reliable [@inter-rater-handbook].
+An objective measure of the agreement (and subsequent disagreement) between annotators is thus desirable.
 
+# Statement of Needs
 
-The Gamma ($\gamma$) Inter-Annotator Agreement Measure was proposed by [@gamma-paper] as a way to solve shortcomings of other pre-existing measures concerning segmentation, unitizing, categorization, weighted categorization and the support for any number of annotators, all the while providing a chance-corrected value. Measures, such as the $\kappa$ [@kappa-paper] or Krippendorff's $\alpha$'s [@alpha-paper],  have existed for some time to deal with these issues, but never could address all of them at once. A detailed comparison between metrics is available in [@gamma-paper].
+The Gamma ($\gamma$) Inter-Annotator Agreement Measure was proposed by [@gamma-paper] as a way to solve shortcomings of other pre-existing measures concerning segmentation, unitizing, categorization, weighted categorization and the support for any number of annotators, all the while providing a chance-corrected value. Measures, such as the $\kappa$ [@kappa-paper] or Krippendorff's $\alpha$'s [@alpha-paper],  have existed for some time to deal with these issues, but never could address all of them at once. A detailed comparison between metrics is available in [@gamma-paper]. The authors of [@gamma-paper] [provided a Java freeware](https://gamma.greyc.fr/) GUI implementation along with their paper. 
 
-The authors of [@gamma-paper] [provided a Java freeware](https://gamma.greyc.fr/) GUI implementation. However, a lot of the work in either automated speech processing or linguistics today is done using Python or shell scripts. For this reason, we thought it would greatly benefit both communities if we could provide them with a fully open-source Python implementation of the original algorithm.
+Linguist and automated speech researchers today use analysis pipeline that are either Python or shell scripts. 
+To this day, no open-source implementation allows for the $\gamma$-agreement to be computed in a programmatical way, and researchers that are already proficient in Python and willing to automate their work might be hindered by the graphical nature of the original Java implementation.
+Moreover, the original $\gamma$-agreement algorithm has several parameters that are determinant in its computation and cannot be configured as of now.
+For this reason, we thought it would greatly benefit the speech and linguistic scientific community if we could provide them with a fully open-source Python implementation of the original algorithm.
 
 
 # The pygamma-agreement Package
@@ -60,13 +68,21 @@ The second one is a command-line application that can be invoked directly from t
 pygamma-agreement corpus/*.csv --confidence_level 0.02 --output_csv results.csv
 ```
 
-We support a variety of commonly used annotation formats among speech researchers and Linguists: RTTM, TextGrid, CSV and `pyannote.core.Annotation` objects.
+We support a variety of commonly used annotation formats among speech researchers and linguists: RTTM, TextGrid, CSV and `pyannote.core.Annotation` objects.
 
-Computing the gamma-agreement requires both array manipulation and the solving of multiple optimization problem formulated as Mixed-Integer Programming (MIP) problems. We thus used the de-facto standard for all of our basic array operations, NumPy [@numpy-paper]. Since some parts of the algorithm are fairly demanding, we made sure that these parts were heavily optimized using `numba` [@numba-paper]. We used `cvxpy`'s [@cvxpy-paper] MIP-solving framework to solve the optimization problem. For time-based annotations, we rely on primitives from `pyannote.core` [@pyannote-paper]. We made sure that it is robustly tested using the widely-adopted `pytest` testing framework. We also back-tested it against the original Java implementation. Most of our package's code is type-hinted and has descriptive docstrings, both of which  can be leveraged by IDEs to ease the use of our API.
+Computing the gamma-agreement requires both array manipulation and the solving of multiple optimization problem formulated as Mixed-Integer Programming (MIP) problems. We thus used the de-facto standard for all of our basic array operations, NumPy [@numpy-paper]. Since some parts of the algorithm are fairly demanding, we made sure that these parts were heavily optimized using `numba` [@numba-paper]. We used `cvxpy`'s [@cvxpy-paper] MIP-solving framework to solve the optimization problem. For time-based annotations, we rely on primitives from `pyannote.core` [@pyannote-paper]. We made sure that it is robustly tested using the widely-adopted `pytest` testing framework. We also back-tested `pygamma-agreement`'s outputs against the original Java implementation to make sure our implementation was fully. We set-up an automated Travis CI to use these tests to ensure our package's quality. Most of our package's code is type-hinted and has descriptive docstrings, both of which  can be leveraged by IDEs to ease the use of our API.
 
 We provide a user [documentation](https://pygamma-agreement.readthedocs.io/en/latest/) as well as an example Jupyter notebook in our package's repository. Additionally, we've used and tested `pygamma-agreement` in conjunction with the development of our own custom-built annotation platform, Seshat [@seshat].
 
-** TODO : the gamma table from the Seshat paper ** 
+<p style="text-align: center;"><small><b>Table 1</b>: $\gamma$ Inter-rater agreement for clinical interviews (16 samples) and child-centered day-long recordings. Annotations were obtained using Seshat.</small></p>
+
+| Corpus              | Annotation                  | # Classes | Mean of $\gamma$ |
+|---------------------|-----------------------------|-----------|------------------|
+| Clinical Interviews | Turn-Takings                | 3         | 0.64             |
+| Clinical Interviews | Utterance                   | 1         | 0.61             |
+| Child Recordings    | Speech Activity             | 1         | 0.46             |
+| Child Recordings    | Child/Adult-directed speech | 2         | 0.27             |
+
 
 We've uploaded our package to the [Pypi repository](https://pypi.org/project/pygamma-agreement/), thus, `pygamma-agreement` can be installed using pip.
 
@@ -82,7 +98,7 @@ We've identified a small number of improvements that our package could benefit f
 
 # Acknowledgements
 
-We are thankful to Yann Mathet for his help on understanding his work on the $\gamma$-agreement.   This work is funded in part by the Agence Nationale pour la Recherche (ANR-17-EURE-0017Frontcog, ANR-10-IDEX-0001-02 PSL*, ANR-19-P3IA-0001PRAIRIE 3IA Institute) and Grants from Neuratris, from Facebook AI Research (Research Gift), Google (Faculty Research Award),  Microsoft  Research  (Azure  Credits  and  Grant), and Amazon Web Service (AWS Research Credits).
+We are thankful to Yann Mathet for his help on understanding his work on the $\gamma$-agreement. We also thank Anne-Catherine Bachoux-Lévy and Emmanuel Dupoux for their advice, as well as Julien Karadayi for helpful discussions and feedbacks.  This work is funded in part by the Agence Nationale pour la Recherche (ANR-17-EURE-0017Frontcog, ANR-10-IDEX-0001-02 PSL*, ANR-19-P3IA-0001PRAIRIE 3IA Institute) and Grants from Neuratris, from Facebook AI Research (Research Gift), Google (Faculty Research Award),  Microsoft  Research  (Azure  Credits  and  Grant), and Amazon Web Service (AWS Research Credits).
 
 # References
 
