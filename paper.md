@@ -28,14 +28,16 @@ In the last decades, it became easier to collect large audio recordings in natur
 
 
 Scientist need to challenge their hypotheses and quantify the observed phenomenons on speech and language; that is why scientists add different layers of annotations. Some type of human intervention is used to reliably describe events contained in the corpus's content (ex: Wikipedia articles, conversations, child babbling, animal vocalizations, or even just environmental sounds). These events can either be tagged at a particular point in time, or over a stretch of time. It is also commonplace to provide a categorical annotation or - in the case of speech -  even precise transcriptions [@chat-childes-book] for these events. 
-Depending on the difficulty of the annotation task and the eventual expertise of the annotators, the annotations can include a certain degree of interpretation, which can make the very notion of "reference" annotation utopian. 
-A common strategy is to have small parts of a corpus annotated by several annotators, to be able quantify their consensus on that reduced subset of the corpus. 
+Depending on the difficulty of the annotation task and the eventual expertise of the annotators, the annotations they produce can include a certain degree of interpretation.
+A common strategy when building annotated corpora is to have small parts of a corpus annotated by several annotators, to be able quantify their consensus on that reduced subset of the corpus. 
 If that consensus is deemed robust (i.e., agreement is high), we infer that the annotation task is well defined, less prone to interpretation, and that annotations that cover the rest of the corpus are reliable [@inter-rater-handbook].
 An objective measure of the agreement (and subsequent disagreement) between annotators is thus desirable.
 
-# Statement of Needs
+# Statement of Need
 
-The Gamma ($\gamma$) Inter-Annotator Agreement Measure was proposed by [@gamma-paper] as a way to solve shortcomings of other pre-existing measures concerning segmentation, unitizing, categorization, weighted categorization and the support for any number of annotators, all the while providing a chance-corrected value. Measures, such as the $\kappa$ [@kappa-paper] or Krippendorff's $\alpha$'s [@alpha-paper],  have existed for some time to deal with these issues, but never could address all of them at once. A detailed comparison between metrics is available in [@gamma-paper]. The authors of [@gamma-paper] [provided a Java freeware](https://gamma.greyc.fr/) GUI implementation along with their paper. 
+The Gamma ($\gamma$) Inter-Annotator Agreement Measure was proposed by [@gamma-paper] as a way to solve shortcomings of other pre-existing measures that aimed at quantifying inter-rater agreement. 
+This quantification will have to satisfy some constraints : segmentation, unitizing, categorization, weighted categorization and the support for any number of annotators. They should also provide a chance-corrected value.
+Measures, such as the $\kappa$ [@kappa-paper] or Krippendorff's $\alpha$'s [@alpha-paper],  have existed for some time to deal with these constraints, but never could address all of them at once. A detailed comparison between metrics is available in [@gamma-paper]. The authors of [@gamma-paper] [provided a Java freeware](https://gamma.greyc.fr/) GUI implementation along with their paper. 
 
 Linguist and automated speech researchers today use analysis pipeline that are either Python or shell scripts. 
 To this day, no open-source implementation allows for the $\gamma$-agreement to be computed in a programmatical way, and researchers that are already proficient in Python and willing to automate their work might be hindered by the graphical nature of the original Java implementation.
@@ -70,18 +72,20 @@ pygamma-agreement corpus/*.csv --confidence_level 0.02 --output_csv results.csv
 
 We support a variety of commonly used annotation formats among speech researchers and linguists: RTTM, TextGrid, CSV and `pyannote.core.Annotation` objects.
 
-Computing the gamma-agreement requires both array manipulation and the solving of multiple optimization problem formulated as Mixed-Integer Programming (MIP) problems. We thus used the de-facto standard for all of our basic array operations, NumPy [@numpy-paper]. Since some parts of the algorithm are fairly demanding, we made sure that these parts were heavily optimized using `numba` [@numba-paper]. We used `cvxpy`'s [@cvxpy-paper] MIP-solving framework to solve the optimization problem. For time-based annotations, we rely on primitives from `pyannote.core` [@pyannote-paper]. We made sure that it is robustly tested using the widely-adopted `pytest` testing framework. We also back-tested `pygamma-agreement`'s outputs against the original Java implementation to make sure our implementation was fully. We set-up an automated Travis CI to use these tests to ensure our package's quality. Most of our package's code is type-hinted and has descriptive docstrings, both of which  can be leveraged by IDEs to ease the use of our API.
+Computing the gamma-agreement requires both array manipulation and the solving of multiple optimization problem formulated as Mixed-Integer Programming (MIP) problems. We thus used the _de facto_ standard for all of our basic array operations, NumPy [@numpy-paper]. Since some parts of the algorithm are fairly demanding, we made sure that these parts were heavily optimized using `numba` [@numba-paper]. We used `cvxpy`'s [@cvxpy-paper] MIP-solving framework to solve the optimization problem. For time-based annotations, we rely on primitives from `pyannote.core` [@pyannote-paper]. We made sure that it is robustly tested using the widely-adopted `pytest` testing framework. We also back-tested `pygamma-agreement`'s outputs against the original Java implementation's outputs to make sure they matched. We set-up an automated Travis CI to use these tests to ensure our package's quality. Most of our package's code is type-hinted and has descriptive docstrings, both of which  can be leveraged by IDEs to ease the use of our API.
 
-We provide a user [documentation](https://pygamma-agreement.readthedocs.io/en/latest/) as well as an example Jupyter notebook in our package's repository. Additionally, we've used and tested `pygamma-agreement` in conjunction with the development of our own custom-built annotation platform, Seshat [@seshat].
+We provide a user [documentation](https://pygamma-agreement.readthedocs.io/en/latest/) as well as an example Jupyter notebook in our package's repository. Additionally, we've used and tested `pygamma-agreement` in conjunction with the development of our own custom-built annotation platform, Seshat [@seshat]. In **Table 1**, we present two use cases for our implementation of the $\gamma$-agreement measure on two corpora. 
 
-<p style="text-align: center;"><small><b>Table 1</b>: $\gamma$ Inter-rater agreement for clinical interviews (16 samples) and child-centered day-long recordings. Annotations were obtained using Seshat.</small></p>
 
 | Corpus              | Annotation                  | # Classes | Mean of $\gamma$ |
 |---------------------|-----------------------------|-----------|------------------|
 | Clinical Interviews | Turn-Takings                | 3         | 0.64             |
-| Clinical Interviews | Utterance                   | 1         | 0.61             |
+| Clinical Interviews | Utterances                  | 1         | 0.61             |
 | Child Recordings    | Speech Activity             | 1         | 0.46             |
 | Child Recordings    | Child/Adult-directed speech | 2         | 0.27             |
+
+
+<p style="text-align: center;"><small><b>Table 1</b>: $\gamma$ Inter-rater agreement for clinical interviews (16 samples) and child-centered day-long recordings (20 samples).</small></p>
 
 
 We've uploaded our package to the [Pypi repository](https://pypi.org/project/pygamma-agreement/), thus, `pygamma-agreement` can be installed using pip.
