@@ -37,7 +37,7 @@ An objective measure of the agreement (and subsequent disagreement) between anno
 
 The Gamma ($\gamma$) Inter-Annotator Agreement Measure was proposed by [@gamma-paper] as a way to solve shortcomings of other pre-existing measures that aimed at quantifying inter-rater agreement. 
 This quantification will have to satisfy some constraints : segmentation, unitizing, categorization, weighted categorization and the support for any number of annotators. They should also provide a chance-corrected value.
-Measures, such as the $\kappa$ [@kappa-paper] or Krippendorff's $\alpha$'s [@alpha-paper],  have existed for some time to deal with these constraints, but never could address all of them at once. A detailed comparison between metrics is available in [@gamma-paper]. The authors of [@gamma-paper] [provided a Java freeware](https://gamma.greyc.fr/) GUI implementation along with their paper. 
+Measures, such as the $\kappa$ [@kappa-paper] or Krippendorff's $\alpha$'s [@alpha-paper],  have existed for some time to deal with these constraints, but never could address all of them at once. A detailed comparison between metrics is available in [@gamma-paper]. Furthermore, the authors of [@gamma-paper] [provided a Java freeware](https://gamma.greyc.fr/) GUI implementation along with their paper. 
 
 Linguist and automated speech researchers today use analysis pipeline that are either Python or shell scripts. 
 To this day, no open-source implementation allows for the $\gamma$-agreement to be computed in a programmatical way, and researchers that are already proficient in Python and willing to automate their work might be hindered by the graphical nature of the original Java implementation.
@@ -85,7 +85,7 @@ We provide a user [documentation](https://pygamma-agreement.readthedocs.io/en/la
 | Child Recordings    | Child/Adult-directed speech | 2         | 0.27             |
 
 
-<p style="text-align: center;"><small><b>Table 1</b>: $\gamma$ Inter-rater agreement for clinical interviews (16 samples) and child-centered day-long recordings (20 samples).</small></p>
+<p style="text-align: center;"><small>**Table 1**: $\gamma$ Inter-rater agreement for clinical interviews (16 samples) and child-centered day-long recordings (20 samples).</small></p>
 
 
 We've uploaded our package to the [Pypi repository](https://pypi.org/project/pygamma-agreement/), thus, `pygamma-agreement` can be installed using pip.
